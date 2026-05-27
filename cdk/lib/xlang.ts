@@ -69,7 +69,7 @@ export class XLangStack extends Stack {
 
         new s3Deploy.BucketDeployment(this, "content", {
             sources: [
-                s3Deploy.Source.asset("../index.html")
+                s3Deploy.Source.asset("../dist")
             ],
             destinationBucket: bucket,
             distribution,
