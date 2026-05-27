@@ -1,0 +1,17 @@
+{
+  "name": "x-lang",
+  "version": "0.0.2",
+  "description": "The x Programming Language Website",
+  "keywords": [
+    "x"
+  ],
+  "homepage": "https://github.com/afrigon/x-lang#readme",
+  "bugs": {
+    "url": "https://github.com/afrigon/x-lang/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/afrigon/x-lang.git"
+  },
+  "author": "Alexandre Frigon"
+}
