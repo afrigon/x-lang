@@ -1,0 +1,48 @@
+name: deploy
+run-name: "CDK deploy (${{ github.ref_name }})"
+
+on:
+  push:
+    tags: 
+      - "*"
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  NODE_VERSION: 24
+  AWS_REGION: us-east-1
+  AWS_ACCOUNT: "944671670298"
+  AWS_ROLE: arn:aws:iam::944671670298:role/GithubActions-afrigon-x-lang
+  CDK_STACKS: "XLang"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install CDK Dependencies
+        run: npm ci
+        working-directory: ./cdk
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ env.AWS_ROLE }}
+          role-session-name: x-lang-ci-session
+
+      - name: CDK synth
+        run: npx cdk synth
+        working-directory: ./cdk
+
+      - name: CDK deploy
+        run: npx cdk deploy ${{ env.CDK_STACKS }} --require-approval never --verbose
+        working-directory: ./cdk
